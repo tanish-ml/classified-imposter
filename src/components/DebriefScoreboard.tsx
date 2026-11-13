@@ -321,7 +321,7 @@ export const DebriefScoreboard: React.FC<DebriefScoreboardProps> = ({
               spyAudio.playStamp();
               onPlayNextMission();
             }}
-            className="flex min-h-[48px] flex-1 items-center justify-center gap-2 rounded-xl bg-crimson px-4 py-3 font-display text-sm font-bold uppercase tracking-wider text-white shadow-crimson-glow transition hover:bg-crimson-glow active:scale-[0.98] sm:flex-initial sm:min-w-[260px] sm:text-base"
+            className="flex min-h-[48px] flex-1 items-center justify-center gap-2 rounded-xl bg-crimson px-4 py-3 font-display text-sm font-bold uppercase tracking-wider text-white transition hover:bg-crimson-glow active:scale-[0.98] sm:flex-initial sm:min-w-[260px] sm:text-base"
           >
             <Play className="h-4 w-4 shrink-0 fill-current" />
             <span>NEXT MISSION (SAME AGENTS)</span>

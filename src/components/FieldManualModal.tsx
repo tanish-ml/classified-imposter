@@ -192,7 +192,7 @@ export const FieldManualModal: React.FC<FieldManualModalProps> = ({
               spyAudio.playTick();
               onClose();
             }}
-            className="rounded-xl bg-crimson px-5 py-2 font-mono text-xs font-bold uppercase tracking-wider text-white shadow-crimson-glow hover:bg-crimson-glow"
+            className="rounded-xl bg-crimson px-5 py-2 font-mono text-xs font-bold uppercase tracking-wider text-white hover:bg-crimson-glow"
           >
             Acknowledge Briefing
           </button>

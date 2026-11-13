@@ -149,7 +149,7 @@ export const TribunalVotingScreen: React.FC<TribunalVotingScreenProps> = ({
               spyAudio.playStamp();
               onContinueToNextSurvivalRound();
             }}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-amber-tactical py-3.5 font-display text-sm font-bold uppercase tracking-wider text-noir-950 shadow-amber-glow"
+            className="flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-amber-tactical py-3.5 font-display text-sm font-bold uppercase tracking-wider text-noir-950 active:scale-[0.98]"
           >
             <span>Start Round {survivalBanner.nextCycle}</span>
             <ArrowRight className="h-4 w-4" />
@@ -408,7 +408,7 @@ export const TribunalVotingScreen: React.FC<TribunalVotingScreenProps> = ({
                 onClick={() =>
                   handleExecuteWithSuspense(selectedSuspectIds, false)
                 }
-                className="flex min-h-[48px] flex-1 items-center justify-center gap-2 rounded-xl bg-crimson px-5 py-3 font-display text-sm font-bold uppercase tracking-wider text-white shadow-crimson-glow transition hover:bg-crimson-glow active:scale-[0.98] disabled:opacity-40 sm:flex-initial"
+                className="flex min-h-[48px] flex-1 items-center justify-center gap-2 rounded-xl bg-crimson px-5 py-3 font-display text-sm font-bold uppercase tracking-wider text-white transition hover:bg-crimson-glow active:scale-[0.98] disabled:opacity-40 sm:flex-initial"
               >
                 <Gavel className="h-4 w-4" />
                 <span>Eliminate ({selectedSuspectIds.length})</span>

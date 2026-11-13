@@ -332,7 +332,7 @@ export const InterrogationScreen: React.FC<InterrogationScreenProps> = ({
               spyAudio.playAlertSiren();
               onStartTribunal();
             }}
-            className="flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-crimson py-3.5 font-display text-sm font-bold uppercase tracking-wider text-white shadow-crimson-glow transition hover:bg-crimson-glow active:scale-[0.98]"
+            className="flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-crimson py-3.5 font-display text-sm font-bold uppercase tracking-wider text-white transition hover:bg-crimson-glow active:scale-[0.98]"
           >
             <Gavel className="h-4 w-4" />
             <span>Vote Now</span>

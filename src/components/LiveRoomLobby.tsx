@@ -279,7 +279,7 @@ export const LiveRoomLobby: React.FC<LiveRoomLobbyProps> = ({
                     spyAudio.playStamp();
                     onStartLiveMission();
                   }}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-crimson py-3 font-display text-sm font-bold uppercase tracking-wider text-white shadow-crimson-glow transition hover:bg-crimson-glow disabled:opacity-40"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-crimson py-3 font-display text-sm font-bold uppercase tracking-wider text-white transition hover:bg-crimson-glow disabled:opacity-40"
                 >
                   <Play className="h-4 w-4 fill-current" />
                   <span>

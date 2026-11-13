@@ -209,7 +209,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({
           }}
           className={`flex min-h-[44px] items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-bold uppercase tracking-wider transition active:scale-[0.98] ${
             settings.playMode === 'pass_and_play'
-              ? 'bg-crimson text-white shadow-crimson-glow'
+              ? 'bg-crimson text-white'
               : 'text-zinc-400 hover:text-zinc-200'
           }`}
         >
@@ -224,7 +224,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({
           }}
           className={`flex min-h-[44px] items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-bold uppercase tracking-wider transition active:scale-[0.98] ${
             settings.playMode === 'live_room'
-              ? 'bg-amber-tactical text-noir-950 shadow-amber-glow'
+              ? 'bg-amber-tactical text-noir-950'
               : 'text-zinc-400 hover:text-zinc-200'
           }`}
         >
@@ -274,7 +274,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({
                   spyAudio.playStamp();
                   onHostLiveRoom();
                 }}
-                className="flex items-center gap-1.5 rounded-xl bg-amber-tactical px-4 py-2 text-xs font-bold uppercase text-noir-950 shadow-amber-glow"
+                className="flex items-center gap-1.5 rounded-xl bg-amber-tactical px-4 py-2 text-xs font-bold uppercase text-noir-950"
               >
                 <QrCode className="h-4 w-4" />
                 <span>Open Lobby</span>
@@ -1014,7 +1014,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({
                 spyAudio.playStamp();
                 onStartPassAndPlay();
               }}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-crimson px-6 py-3.5 font-display text-sm font-bold uppercase tracking-wider text-white shadow-crimson-glow transition hover:bg-crimson-glow active:scale-[0.98] sm:w-auto sm:min-w-[240px]"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-crimson px-6 py-3.5 font-display text-sm font-bold uppercase tracking-wider text-white transition hover:bg-crimson-glow active:scale-[0.98] sm:w-auto sm:min-w-[240px]"
             >
               <Play className="h-4 w-4 fill-current" />
               <span>Start Game ({players.length}P)</span>
@@ -1026,7 +1026,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({
                 spyAudio.playStamp();
                 onHostLiveRoom();
               }}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-amber-tactical px-6 py-3.5 font-display text-sm font-bold uppercase tracking-wider text-noir-950 shadow-amber-glow transition hover:bg-amber-glow active:scale-[0.98] sm:w-auto sm:min-w-[240px]"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-amber-tactical px-6 py-3.5 font-display text-sm font-bold uppercase tracking-wider text-noir-950 transition hover:bg-amber-glow active:scale-[0.98] sm:w-auto sm:min-w-[240px]"
             >
               <QrCode className="h-4 w-4" />
               <span>Open Live Lobby</span>

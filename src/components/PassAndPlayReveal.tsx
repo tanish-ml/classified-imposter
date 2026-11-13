@@ -180,7 +180,7 @@ export const PassAndPlayReveal: React.FC<PassAndPlayRevealProps> = ({
                 handleRevealStart();
               }}
               onClick={handleToggleDossier}
-              className="group relative flex h-28 w-28 flex-col items-center justify-center rounded-full border-2 border-crimson bg-crimson/15 text-crimson-glow shadow-crimson-glow transition active:scale-95"
+              className="group relative flex h-28 w-28 flex-col items-center justify-center rounded-full border-2 border-crimson bg-crimson/15 text-crimson-glow transition active:scale-95"
               aria-label="Reveal Classified Dossier"
             >
               <div className="scanner-laser" />
