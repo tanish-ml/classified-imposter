@@ -388,4 +388,20 @@ describe('Tribunal Resolution & Last-Chance Word Steal', () => {
       250
     );
   });
+
+  it('does not duplicate INTEL CLUE prefix in All-Imposters mode when hintStyle is none', () => {
+    const used = new Set<string>();
+    const round = createRoundState(
+      samplePlayers,
+      { ...baseSettings, chaosMode: 'all_imposters', hintStyle: 'none' },
+      BUILTIN_CATEGORIES,
+      used,
+      1
+    );
+
+    const anyPlayer = Object.values(round.assignments)[0];
+    expect(anyPlayer.role).toBe('imposter');
+    expect(anyPlayer.hintText).toBe(round.trueHint);
+    expect(anyPlayer.hintText).not.toMatch(/^INTEL CLUE:/i);
+  });
 });

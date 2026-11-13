@@ -324,8 +324,13 @@ export const CustomDeckModal: React.FC<CustomDeckModalProps> = ({
                         onChange={(e) =>
                           handleEntryChange(idx, 'word', e.target.value)
                         }
+                        onFocus={(e) => {
+                          setTimeout(() => {
+                            e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                          }, 250);
+                        }}
                         placeholder={`#${idx + 1} Secret Word *`}
-                        className="rounded-lg border border-zinc-800 bg-noir-900 px-3 py-1.5 text-xs text-white placeholder-zinc-600 focus:border-amber-tactical focus:outline-none sm:col-span-4"
+                        className="min-h-[44px] rounded-lg border border-zinc-800 bg-noir-900 px-3 py-2 text-xs text-white placeholder-zinc-600 focus:border-amber-tactical focus:outline-none sm:col-span-4"
                       />
                       <input
                         type="text"
@@ -333,8 +338,13 @@ export const CustomDeckModal: React.FC<CustomDeckModalProps> = ({
                         onChange={(e) =>
                           handleEntryChange(idx, 'hint', e.target.value)
                         }
+                        onFocus={(e) => {
+                          setTimeout(() => {
+                            e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                          }, 250);
+                        }}
                         placeholder="Imposter Hint (Optional)"
-                        className="rounded-lg border border-zinc-800 bg-noir-900 px-3 py-1.5 text-xs text-zinc-300 placeholder-zinc-600 focus:border-amber-tactical focus:outline-none sm:col-span-4"
+                        className="min-h-[44px] rounded-lg border border-zinc-800 bg-noir-900 px-3 py-2 text-xs text-zinc-300 placeholder-zinc-600 focus:border-amber-tactical focus:outline-none sm:col-span-4"
                       />
                       <div className="flex gap-1.5 sm:col-span-4">
                         <input
@@ -343,16 +353,21 @@ export const CustomDeckModal: React.FC<CustomDeckModalProps> = ({
                           onChange={(e) =>
                             handleEntryChange(idx, 'decoy', e.target.value)
                           }
+                          onFocus={(e) => {
+                            setTimeout(() => {
+                              e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }, 250);
+                          }}
                           placeholder="Decoy Word (Optional)"
-                          className="w-full rounded-lg border border-zinc-800 bg-noir-900 px-3 py-1.5 text-xs text-zinc-300 placeholder-zinc-600 focus:border-amber-tactical focus:outline-none"
+                          className="min-h-[44px] w-full rounded-lg border border-zinc-800 bg-noir-900 px-3 py-2 text-xs text-zinc-300 placeholder-zinc-600 focus:border-amber-tactical focus:outline-none"
                         />
                         {entries.length > 3 && (
                           <button
                             type="button"
                             onClick={() => handleRemoveRow(idx)}
-                            className="rounded-lg border border-zinc-800 bg-noir-900 px-2 text-zinc-500 hover:border-crimson/50 hover:text-crimson-glow"
+                            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-zinc-800 bg-noir-900 text-zinc-500 hover:border-crimson/50 hover:text-crimson-glow active:scale-95"
                           >
-                            <Trash2 className="h-3.5 w-3.5" />
+                            <Trash2 className="h-4 w-4" />
                           </button>
                         )}
                       </div>

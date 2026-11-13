@@ -170,7 +170,7 @@ export const LiveRoomLobby: React.FC<LiveRoomLobbyProps> = ({
                   <button
                     type="button"
                     onClick={handleQuickAddAgent}
-                    className="flex items-center gap-1 rounded-lg border border-zinc-700 bg-noir-800 px-2.5 py-1 text-xs font-semibold text-amber-tactical hover:border-amber-tactical"
+                    className="flex min-h-[44px] items-center gap-1 rounded-xl border border-zinc-700 bg-noir-800 px-3 py-2 text-xs font-semibold text-amber-tactical transition hover:border-amber-tactical active:scale-95"
                   >
                     <UserPlus className="h-3.5 w-3.5" />
                     <span>Add Local</span>
@@ -203,7 +203,7 @@ export const LiveRoomLobby: React.FC<LiveRoomLobbyProps> = ({
                             AGENT_AVATARS[(currIdx + 1) % AGENT_AVATARS.length];
                           onUpdatePlayerInfo(p.id, p.name, nextAvatar);
                         }}
-                        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-noir-800 text-lg transition hover:scale-105 disabled:opacity-70"
+                        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-noir-800 text-lg transition hover:scale-105 active:scale-95 disabled:opacity-70"
                         title={canEdit ? 'Tap to change icon' : ''}
                       >
                         {p.avatar}
@@ -219,8 +219,16 @@ export const LiveRoomLobby: React.FC<LiveRoomLobbyProps> = ({
                               onChange={(e) =>
                                 onUpdatePlayerInfo(p.id, e.target.value, p.avatar)
                               }
+                              onFocus={(e) => {
+                                setTimeout(() => {
+                                  e.target.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'center',
+                                  });
+                                }, 250);
+                              }}
                               aria-label={`Edit ${p.name}`}
-                              className="w-full bg-transparent text-sm font-bold text-white focus:border-b focus:border-amber-tactical focus:outline-none"
+                              className="min-h-[44px] w-full bg-transparent py-2 text-sm font-bold text-white focus:border-b focus:border-amber-tactical focus:outline-none"
                             />
                             <Pencil className="h-3 w-3 shrink-0 text-zinc-500" />
                           </div>
@@ -249,10 +257,10 @@ export const LiveRoomLobby: React.FC<LiveRoomLobbyProps> = ({
                               spyAudio.playTick();
                               onRemovePlayer(p.id);
                             }}
-                            className="rounded-lg p-1 text-zinc-500 hover:bg-crimson/15 hover:text-crimson-glow"
+                            className="flex h-11 w-11 items-center justify-center rounded-xl text-zinc-500 transition hover:bg-crimson/15 hover:text-crimson-glow active:scale-95"
                             title="Remove player"
                           >
-                            <Trash2 className="h-3.5 w-3.5" />
+                            <Trash2 className="h-4 w-4" />
                           </button>
                         )}
                       </div>

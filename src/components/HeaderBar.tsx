@@ -70,7 +70,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
           </div>
         </button>
 
-        {/* Minimal Icon Controls */}
+        {/* Minimal Icon Controls (44px+ Apple HIG Touch Targets) */}
         <div className="flex items-center gap-1.5">
           <button
             type="button"
@@ -78,7 +78,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
               spyAudio.playTick();
               onOpenCustomDecks();
             }}
-            className="flex h-9 items-center gap-1.5 rounded-xl border border-zinc-800 bg-noir-900 px-2.5 text-xs font-medium text-zinc-200 transition hover:border-amber-tactical/50 hover:text-amber-tactical"
+            className="flex h-11 min-w-[44px] items-center justify-center gap-1.5 rounded-xl border border-zinc-800 bg-noir-900 px-3 text-xs font-medium text-zinc-200 transition hover:border-amber-tactical/50 hover:text-amber-tactical active:scale-95"
             title="Custom Decks"
           >
             <FolderPlus className="h-4 w-4 text-amber-tactical" />
@@ -91,7 +91,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
               spyAudio.playTick();
               onOpenManual();
             }}
-            className="flex h-9 items-center gap-1.5 rounded-xl border border-zinc-800 bg-noir-900 px-2.5 text-xs font-medium text-zinc-200 transition hover:border-zinc-600"
+            className="flex h-11 min-w-[44px] items-center justify-center gap-1.5 rounded-xl border border-zinc-800 bg-noir-900 px-3 text-xs font-medium text-zinc-200 transition hover:border-zinc-600 active:scale-95"
             title="Rules & Roles"
           >
             <BookOpen className="h-4 w-4 text-emerald-400" />
@@ -101,7 +101,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
           <button
             type="button"
             onClick={onToggleSound}
-            className={`flex h-9 w-9 items-center justify-center rounded-xl border transition ${
+            className={`flex h-11 w-11 items-center justify-center rounded-xl border transition active:scale-95 ${
               soundEnabled
                 ? 'border-zinc-800 bg-noir-900 text-zinc-300 hover:border-zinc-600'
                 : 'border-crimson/40 bg-crimson-dark/20 text-crimson-glow'
@@ -123,7 +123,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
                 spyAudio.playTick();
                 onAbortToSetup();
               }}
-              className="flex h-9 items-center gap-1 rounded-xl border border-crimson/40 bg-crimson/10 px-2.5 text-xs font-semibold text-crimson-glow transition hover:bg-crimson/20"
+              className="flex h-11 min-w-[44px] items-center justify-center gap-1 rounded-xl border border-crimson/40 bg-crimson/10 px-3 text-xs font-semibold text-crimson-glow transition hover:bg-crimson/20 active:scale-95"
               title="Exit to Setup"
             >
               <LogOut className="h-4 w-4" />

@@ -229,8 +229,8 @@ export const PassAndPlayReveal: React.FC<PassAndPlayRevealProps> = ({
               {/* Secret Word or Imposter Alert */}
               <div className="my-5 text-center">
                 <span
-                  className={`block font-mono text-[10px] font-bold uppercase tracking-widest ${
-                    isImposter ? 'text-crimson-glow' : 'text-zinc-600'
+                  className={`block font-mono text-xs font-bold uppercase tracking-widest ${
+                    isImposter ? 'text-crimson-glow' : 'text-noir-900/80'
                   }`}
                 >
                   {isImposter
@@ -300,7 +300,7 @@ export const PassAndPlayReveal: React.FC<PassAndPlayRevealProps> = ({
             <button
               type="button"
               onClick={handleHideDossier}
-              className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-noir-800 py-3 font-mono text-xs font-bold uppercase text-zinc-200 hover:border-zinc-500"
+              className="mt-4 flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-noir-800 py-3 font-mono text-xs font-bold uppercase text-zinc-200 transition hover:border-zinc-500 active:scale-[0.98]"
             >
               <EyeOff className="h-4 w-4" />
               <span>Re-Lock Dossier View</span>
@@ -315,7 +315,7 @@ export const PassAndPlayReveal: React.FC<PassAndPlayRevealProps> = ({
               type="button"
               disabled={!hasSeenOnce}
               onClick={handleAdvance}
-              className={`flex w-full items-center justify-center gap-2 rounded-xl py-3.5 font-display text-sm font-bold uppercase tracking-wider active:scale-[0.98] ${
+              className={`flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl py-3.5 font-display text-sm font-bold uppercase tracking-wider active:scale-[0.98] ${
                 hasSeenOnce
                   ? 'bg-emerald-600 text-white shadow-lg hover:bg-emerald-500'
                   : 'cursor-not-allowed border border-zinc-800 bg-noir-900 text-zinc-600'

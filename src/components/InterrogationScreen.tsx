@@ -99,7 +99,14 @@ export const InterrogationScreen: React.FC<InterrogationScreenProps> = ({
   const currentReward = getCivilianRewardForCycle(round.voteCycle);
 
   return (
-    <div className="mx-auto max-w-4xl px-3 py-4 sm:px-6 sm:py-6">
+    <div className="mx-auto max-w-4xl px-3 pb-24 pt-4 sm:px-6 sm:pt-6">
+      {/* Red Ambient Strobe on Final 10-Second Countdown */}
+      {secondsLeft <= 10 && secondsLeft > 0 && !isPaused && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none fixed inset-0 z-20 animate-pulse shadow-[inset_0_0_55px_rgba(217,56,58,0.45)]"
+        />
+      )}
       {/* Minimalist Top Bar: Category, Vote Cycle & Timer */}
       <div className="rounded-2xl border border-zinc-800 bg-noir-900 p-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -141,13 +148,13 @@ export const InterrogationScreen: React.FC<InterrogationScreenProps> = ({
                 spyAudio.playTick();
                 setIsPaused(!isPaused);
               }}
-              className="rounded-lg bg-noir-800 p-1.5 text-zinc-300 hover:text-white"
+              className="flex h-11 w-11 items-center justify-center rounded-xl bg-noir-800 text-zinc-300 transition hover:text-white active:scale-95"
               title={isPaused ? 'Resume' : 'Pause'}
             >
               {isPaused ? (
-                <Play className="h-3.5 w-3.5" />
+                <Play className="h-4 w-4" />
               ) : (
-                <Pause className="h-3.5 w-3.5" />
+                <Pause className="h-4 w-4" />
               )}
             </button>
             <button
@@ -156,7 +163,7 @@ export const InterrogationScreen: React.FC<InterrogationScreenProps> = ({
                 spyAudio.playTick();
                 setSecondsLeft((s) => s + 30);
               }}
-              className="rounded-lg bg-noir-800 px-2 py-1 font-mono text-[10px] font-bold text-zinc-300 hover:text-amber-tactical"
+              className="flex h-11 items-center justify-center rounded-xl bg-noir-800 px-3.5 font-mono text-xs font-bold text-zinc-300 transition hover:text-amber-tactical active:scale-95"
             >
               +30s
             </button>
@@ -191,9 +198,9 @@ export const InterrogationScreen: React.FC<InterrogationScreenProps> = ({
                     (prev) => (prev + 1) % INTERROGATION_PROMPTS.length
                   );
                 }}
-                className="flex items-center gap-1 text-[11px] text-zinc-400 hover:text-amber-tactical"
+                className="flex min-h-[44px] items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-semibold text-zinc-300 transition hover:text-amber-tactical active:scale-95"
               >
-                <Sparkles className="h-3 w-3" /> Prompt
+                <Sparkles className="h-3.5 w-3.5 text-amber-tactical" /> Prompt
               </button>
             </div>
 
@@ -216,12 +223,17 @@ export const InterrogationScreen: React.FC<InterrogationScreenProps> = ({
                 type="text"
                 value={clueInput}
                 onChange={(e) => setClueInput(e.target.value)}
+                onFocus={(e) => {
+                  setTimeout(() => {
+                    e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }, 250);
+                }}
                 placeholder="Log clue (optional)..."
-                className="w-full rounded-xl border border-zinc-800 bg-noir-950 px-3 py-2.5 text-sm text-white placeholder-zinc-600 focus:border-amber-tactical focus:outline-none"
+                className="min-h-[44px] w-full rounded-xl border border-zinc-800 bg-noir-950 px-3 py-2.5 text-sm text-white placeholder-zinc-600 focus:border-amber-tactical focus:outline-none"
               />
               <button
                 type="submit"
-                className="flex shrink-0 items-center gap-1 rounded-xl bg-amber-tactical px-4 py-2.5 text-xs font-bold uppercase text-noir-950"
+                className="flex min-h-[44px] shrink-0 items-center gap-1 rounded-xl bg-amber-tactical px-4 py-2.5 text-xs font-bold uppercase text-noir-950 active:scale-95"
               >
                 <span>Next</span>
                 <ArrowRight className="h-4 w-4" />
@@ -240,9 +252,9 @@ export const InterrogationScreen: React.FC<InterrogationScreenProps> = ({
               );
               setPeekUnlocked(false);
             }}
-            className="mt-4 flex w-full items-center justify-center gap-1.5 rounded-xl border border-zinc-800 bg-noir-950 py-2.5 text-xs font-medium text-zinc-300 hover:border-zinc-600"
+            className="mt-4 flex min-h-[44px] w-full items-center justify-center gap-1.5 rounded-xl border border-zinc-800 bg-noir-950 py-2.5 text-xs font-medium text-zinc-300 transition hover:border-zinc-600 active:scale-[0.98]"
           >
-            <Eye className="h-3.5 w-3.5 text-amber-tactical" />
+            <Eye className="h-4 w-4 text-amber-tactical" />
             <span>Peek Secret Word</span>
           </button>
         </div>
@@ -298,24 +310,29 @@ export const InterrogationScreen: React.FC<InterrogationScreenProps> = ({
                         setPeekPlayerId(pid);
                         setPeekUnlocked(false);
                       }}
-                      className="rounded-lg bg-noir-800 p-1.5 text-zinc-400 hover:text-white"
+                      className="flex h-11 w-11 items-center justify-center rounded-xl bg-noir-800 text-zinc-400 transition hover:text-white active:scale-95"
                       title="Peek word"
                     >
-                      <Eye className="h-3.5 w-3.5" />
+                      <Eye className="h-4 w-4" />
                     </button>
                   </div>
                 );
               })}
             </div>
           </div>
+        </div>
+      </div>
 
+      {/* Sticky Bottom Thumb-Zone Action Bar */}
+      <div className="fixed bottom-0 left-0 right-0 z-30 border-t border-zinc-800/90 bg-noir-950/95 p-3 backdrop-blur-md">
+        <div className="mx-auto max-w-4xl">
           <button
             type="button"
             onClick={() => {
               spyAudio.playAlertSiren();
               onStartTribunal();
             }}
-            className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-crimson py-3.5 font-display text-sm font-bold uppercase tracking-wider text-white shadow-crimson-glow transition hover:bg-crimson-glow"
+            className="flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-crimson py-3.5 font-display text-sm font-bold uppercase tracking-wider text-white shadow-crimson-glow transition hover:bg-crimson-glow active:scale-[0.98]"
           >
             <Gavel className="h-4 w-4" />
             <span>Vote Now</span>

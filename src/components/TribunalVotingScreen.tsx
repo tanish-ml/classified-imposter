@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   ArrowRight,
   Crosshair,
@@ -56,6 +56,30 @@ export const TribunalVotingScreen: React.FC<TribunalVotingScreenProps> = ({
   const [ballotVotes, setBallotVotes] = useState<Record<string, string>>({});
   const [showDetectiveModal, setShowDetectiveModal] = useState(false);
   const [scannedTargetId, setScannedTargetId] = useState<string | null>(null);
+  const [isVerifyingVerdict, setIsVerifyingVerdict] = useState(false);
+  const verdictTimeoutRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (verdictTimeoutRef.current !== null) {
+        window.clearTimeout(verdictTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const handleExecuteWithSuspense = (
+    suspectIds: string[],
+    votedNoImposter = false
+  ) => {
+    if (isVerifyingVerdict) return;
+    setIsVerifyingVerdict(true);
+    spyAudio.playScannerReveal();
+    verdictTimeoutRef.current = window.setTimeout(() => {
+      setIsVerifyingVerdict(false);
+      spyAudio.playStamp();
+      onExecuteVerdict(suspectIds, votedNoImposter);
+    }, 1500);
+  };
 
   // Last Chance Steal states
   const [stealSeconds, setStealSeconds] = useState(20);
@@ -185,12 +209,17 @@ export const TribunalVotingScreen: React.FC<TribunalVotingScreenProps> = ({
                 type="text"
                 value={customGuessText}
                 onChange={(e) => setCustomGuessText(e.target.value)}
+                onFocus={(e) => {
+                  setTimeout(() => {
+                    e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }, 250);
+                }}
                 placeholder="Or type word..."
-                className="w-full rounded-xl border border-zinc-700 bg-noir-950 px-3 py-2 text-sm text-white placeholder-zinc-500 focus:border-amber-tactical focus:outline-none"
+                className="min-h-[44px] w-full rounded-xl border border-zinc-700 bg-noir-950 px-3 py-2 text-sm text-white placeholder-zinc-500 focus:border-amber-tactical focus:outline-none"
               />
               <button
                 type="submit"
-                className="shrink-0 rounded-xl bg-amber-tactical px-4 py-2 text-xs font-bold uppercase text-noir-950"
+                className="min-h-[44px] shrink-0 rounded-xl bg-amber-tactical px-4 py-2 text-xs font-bold uppercase text-noir-950 active:scale-95"
               >
                 Guess
               </button>
@@ -236,8 +265,7 @@ export const TribunalVotingScreen: React.FC<TribunalVotingScreenProps> = ({
       const topSuspects = Object.keys(counts).filter(
         (id) => counts[id] === maxVotes
       );
-      spyAudio.playStamp();
-      onExecuteVerdict(
+      handleExecuteWithSuspense(
         topSuspects.slice(0, Math.max(1, settings.imposterCount)),
         false
       );
@@ -273,7 +301,7 @@ export const TribunalVotingScreen: React.FC<TribunalVotingScreenProps> = ({
                   spyAudio.playTick();
                   setShowDetectiveModal(true);
                 }}
-                className="flex items-center gap-1 rounded-xl border border-sky-500/40 bg-sky-950/30 px-2.5 py-1.5 text-xs font-bold text-sky-300"
+                className="flex min-h-[44px] items-center gap-1.5 rounded-xl border border-sky-500/40 bg-sky-950/30 px-3 py-2 text-xs font-bold text-sky-300 active:scale-95"
               >
                 <Search className="h-3.5 w-3.5" />
                 <span>Scan</span>
@@ -287,7 +315,7 @@ export const TribunalVotingScreen: React.FC<TribunalVotingScreenProps> = ({
                   spyAudio.playTick();
                   setVotingStyle('group');
                 }}
-                className={`rounded-lg px-2.5 py-1 text-xs font-bold ${
+                className={`min-h-[36px] rounded-lg px-3 py-1.5 text-xs font-bold transition ${
                   votingStyle === 'group'
                     ? 'bg-crimson text-white'
                     : 'text-zinc-400'
@@ -303,7 +331,7 @@ export const TribunalVotingScreen: React.FC<TribunalVotingScreenProps> = ({
                   setBallotVoterIdx(0);
                   setBallotVotes({});
                 }}
-                className={`rounded-lg px-2.5 py-1 text-xs font-bold ${
+                className={`min-h-[36px] rounded-lg px-3 py-1.5 text-xs font-bold transition ${
                   votingStyle === 'ballot'
                     ? 'bg-amber-tactical text-noir-950'
                     : 'text-zinc-400'
@@ -363,25 +391,24 @@ export const TribunalVotingScreen: React.FC<TribunalVotingScreenProps> = ({
             </div>
 
             <div className="mt-5 flex flex-wrap items-center justify-between gap-2.5 border-t border-zinc-800 pt-4">
-              <button
-                type="button"
-                onClick={() => {
-                  spyAudio.playStamp();
-                  onExecuteVerdict([], true);
-                }}
-                className="rounded-xl border border-emerald-500/40 bg-emerald-950/30 px-3.5 py-2.5 text-xs font-bold text-emerald-300"
-              >
-                0 Imposters
-              </button>
+              {(settings.chaosMode === 'zero_imposters' ||
+                settings.chaosMode === 'random_chaos') && (
+                <button
+                  type="button"
+                  onClick={() => handleExecuteWithSuspense([], true)}
+                  className="min-h-[44px] rounded-xl border border-emerald-500/40 bg-emerald-950/30 px-4 py-2.5 text-xs font-bold text-emerald-300 transition active:scale-95"
+                >
+                  🛡️ False Alarm (0 Imposters)
+                </button>
+              )}
 
               <button
                 type="button"
-                disabled={selectedSuspectIds.length === 0}
-                onClick={() => {
-                  spyAudio.playStamp();
-                  onExecuteVerdict(selectedSuspectIds, false);
-                }}
-                className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-crimson px-5 py-3 font-display text-sm font-bold uppercase tracking-wider text-white shadow-crimson-glow transition hover:bg-crimson-glow disabled:opacity-40 sm:flex-initial"
+                disabled={selectedSuspectIds.length === 0 || isVerifyingVerdict}
+                onClick={() =>
+                  handleExecuteWithSuspense(selectedSuspectIds, false)
+                }
+                className="flex min-h-[48px] flex-1 items-center justify-center gap-2 rounded-xl bg-crimson px-5 py-3 font-display text-sm font-bold uppercase tracking-wider text-white shadow-crimson-glow transition hover:bg-crimson-glow active:scale-[0.98] disabled:opacity-40 sm:flex-initial"
               >
                 <Gavel className="h-4 w-4" />
                 <span>Eliminate ({selectedSuspectIds.length})</span>
@@ -489,11 +516,29 @@ export const TribunalVotingScreen: React.FC<TribunalVotingScreenProps> = ({
             <button
               type="button"
               onClick={() => setShowDetectiveModal(false)}
-              className="w-full rounded-xl bg-sky-600 py-2.5 text-xs font-bold uppercase text-white"
+              className="min-h-[44px] w-full rounded-xl bg-sky-600 py-2.5 text-xs font-bold uppercase text-white active:scale-[0.98]"
             >
               Close
             </button>
           </div>
+        </div>
+      )}
+
+      {/* Suspense Elimination Drumroll Overlay */}
+      {isVerifyingVerdict && (
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/90 p-6 backdrop-blur-md">
+          <div className="relative mb-6 flex h-24 w-24 items-center justify-center">
+            <div className="absolute inset-0 animate-ping rounded-full bg-crimson/35" />
+            <div className="flex h-20 w-20 items-center justify-center rounded-full border-2 border-crimson bg-noir-950 text-3xl shadow-crimson-glow">
+              ⚖️
+            </div>
+          </div>
+          <h2 className="animate-pulse text-center font-display text-xl font-extrabold uppercase tracking-widest text-crimson-glow">
+            ANALYZING CLEARANCE DATA...
+          </h2>
+          <p className="mt-2 text-center font-mono text-xs text-zinc-400">
+            Transmitting verdict to Tribunal
+          </p>
         </div>
       )}
     </div>

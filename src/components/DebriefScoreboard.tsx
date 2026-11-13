@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import confetti from 'canvas-confetti';
 import {
   Flame,
@@ -27,18 +27,32 @@ export const DebriefScoreboard: React.FC<DebriefScoreboardProps> = ({
   onPlayNextMission,
   onReturnToSetup,
 }) => {
+  const [mobileTab, setMobileTab] = useState<'intel' | 'leaderboard'>('intel');
+
   useEffect(() => {
-    spyAudio.playVictoryFanfare();
-    try {
-      confetti({
-        particleCount: 75,
-        spread: 70,
-        origin: { y: 0.6 },
-      });
-    } catch {
-      // Ignore in headless/non-canvas environments
+    if (outcome.winnerTeam === 'civilians' || outcome.winnerTeam === 'jester') {
+      spyAudio.playVictoryFanfare();
+      try {
+        confetti({
+          particleCount: 75,
+          spread: 70,
+          origin: { y: 0.6 },
+        });
+      } catch {
+        // Ignore in headless/non-canvas environments
+      }
+    } else {
+      spyAudio.playAlertSiren();
     }
-  }, []);
+
+    return () => {
+      try {
+        confetti.reset();
+      } catch {
+        // Ignore in headless/non-canvas environments
+      }
+    };
+  }, [outcome.winnerTeam]);
 
   const sortedLeaderboard = [...players].sort((a, b) => b.score - a.score);
 
@@ -48,7 +62,7 @@ export const DebriefScoreboard: React.FC<DebriefScoreboardProps> = ({
     BUILTIN_CATEGORIES.find((c) => c.id === round.categoryId)?.icon || 'Layers';
 
   return (
-    <div className="animate-card-in mx-auto max-w-4xl px-3 pb-24 pt-5 sm:px-6">
+    <div className="mx-auto max-w-4xl px-3 pb-24 pt-5 sm:px-6">
       {/* Outcome Banner Card */}
       <div
         className={`relative overflow-hidden rounded-3xl border-2 p-6 shadow-dossier sm:p-8 ${
@@ -124,10 +138,46 @@ export const DebriefScoreboard: React.FC<DebriefScoreboardProps> = ({
         </div>
       </div>
 
+      {/* Mobile-Only Segmented Tab Switcher (reduces scroll depth) */}
+      <div className="mt-4 grid grid-cols-2 gap-1.5 rounded-xl border border-zinc-800 bg-noir-900 p-1 lg:hidden">
+        <button
+          type="button"
+          onClick={() => {
+            spyAudio.playTick();
+            setMobileTab('intel');
+          }}
+          className={`min-h-[44px] rounded-lg py-2 text-xs font-bold transition ${
+            mobileTab === 'intel'
+              ? 'bg-zinc-800 text-white'
+              : 'text-zinc-400'
+          }`}
+        >
+          Roles & Points
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            spyAudio.playTick();
+            setMobileTab('leaderboard');
+          }}
+          className={`min-h-[44px] rounded-lg py-2 text-xs font-bold transition ${
+            mobileTab === 'leaderboard'
+              ? 'bg-zinc-800 text-white'
+              : 'text-zinc-400'
+          }`}
+        >
+          Leaderboard
+        </button>
+      </div>
+
       {/* Two-Column Breakdown: Agent Declassification + Session Leaderboard */}
-      <div className="mt-6 grid gap-6 lg:grid-cols-12">
+      <div className="mt-4 grid gap-6 lg:mt-6 lg:grid-cols-12">
         {/* Left: True Roles & Point Breakdown (7 cols) */}
-        <div className="rounded-2xl border border-zinc-800 bg-noir-900 p-5 shadow-dossier lg:col-span-7">
+        <div
+          className={`rounded-2xl border border-zinc-800 bg-noir-900 p-5 shadow-dossier lg:col-span-7 ${
+            mobileTab === 'intel' ? 'block' : 'hidden lg:block'
+          }`}
+        >
           <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
             <h3 className="font-display text-lg font-bold text-white">
               Operative Allegiances & Mission Points
@@ -191,7 +241,11 @@ export const DebriefScoreboard: React.FC<DebriefScoreboardProps> = ({
         </div>
 
         {/* Right: Cumulative Agency Leaderboard (5 cols) */}
-        <div className="rounded-2xl border border-zinc-800 bg-noir-900 p-5 shadow-dossier lg:col-span-5">
+        <div
+          className={`rounded-2xl border border-zinc-800 bg-noir-900 p-5 shadow-dossier lg:col-span-5 ${
+            mobileTab === 'leaderboard' ? 'block' : 'hidden lg:block'
+          }`}
+        >
           <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
             <h3 className="flex items-center gap-2 font-display text-lg font-bold text-white">
               <Trophy className="h-5 w-5 text-amber-tactical" />
@@ -255,7 +309,7 @@ export const DebriefScoreboard: React.FC<DebriefScoreboardProps> = ({
               spyAudio.playTick();
               onReturnToSetup();
             }}
-            className="flex shrink-0 items-center gap-1.5 rounded-xl border border-zinc-700 bg-noir-800 px-3.5 py-3 font-mono text-xs font-bold uppercase text-zinc-200 hover:border-zinc-500"
+            className="flex min-h-[48px] shrink-0 items-center gap-1.5 rounded-xl border border-zinc-700 bg-noir-800 px-4 py-3 font-mono text-xs font-bold uppercase text-zinc-200 transition hover:border-zinc-500 active:scale-95"
           >
             <Sliders className="h-4 w-4" />
             <span>Rules</span>
@@ -267,7 +321,7 @@ export const DebriefScoreboard: React.FC<DebriefScoreboardProps> = ({
               spyAudio.playStamp();
               onPlayNextMission();
             }}
-            className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-crimson px-4 py-3 font-display text-sm font-bold uppercase tracking-wider text-white shadow-crimson-glow transition hover:bg-crimson-glow sm:flex-initial sm:min-w-[260px] sm:text-base"
+            className="flex min-h-[48px] flex-1 items-center justify-center gap-2 rounded-xl bg-crimson px-4 py-3 font-display text-sm font-bold uppercase tracking-wider text-white shadow-crimson-glow transition hover:bg-crimson-glow active:scale-[0.98] sm:flex-initial sm:min-w-[260px] sm:text-base"
           >
             <Play className="h-4 w-4 shrink-0 fill-current" />
             <span>NEXT MISSION (SAME AGENTS)</span>

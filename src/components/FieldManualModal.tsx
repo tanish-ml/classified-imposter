@@ -97,7 +97,7 @@ export const FieldManualModal: React.FC<FieldManualModalProps> = ({
               <div className="rounded-lg border border-zinc-800 bg-noir-900 p-3">
                 <div className="font-mono text-xs font-bold text-amber-tactical">STEP 4: STEAL</div>
                 <p className="mt-1 text-xs text-zinc-400">
-                  If the Imposter is caught, they get one <strong>15-second Last Chance</strong> to guess the secret word and steal the win!
+                  If the Imposter is caught, they get one <strong>20-second Last Chance</strong> to guess the secret word and steal the win!
                 </p>
               </div>
             </div>

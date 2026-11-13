@@ -144,7 +144,7 @@ export function buildImposterHint(
   const letterMeta = `Starts with "${firstChar}" (${cleanWord.length} chars, ${wordCount} ${wordCount === 1 ? 'word' : 'words'})`;
 
   if (hintStyle === 'none') {
-    return forceHintForChaos ? `INTEL CLUE: ${entry.hint}` : null;
+    return forceHintForChaos ? entry.hint : null;
   }
   if (hintStyle === 'subtle_clue') {
     return entry.hint;

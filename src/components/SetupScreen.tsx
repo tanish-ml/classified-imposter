@@ -207,7 +207,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({
             spyAudio.playTick();
             onUpdateSettings({ playMode: 'pass_and_play' });
           }}
-          className={`flex items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-bold uppercase tracking-wider transition ${
+          className={`flex min-h-[44px] items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-bold uppercase tracking-wider transition active:scale-[0.98] ${
             settings.playMode === 'pass_and_play'
               ? 'bg-crimson text-white shadow-crimson-glow'
               : 'text-zinc-400 hover:text-zinc-200'
@@ -222,7 +222,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({
             spyAudio.playTick();
             onUpdateSettings({ playMode: 'live_room' });
           }}
-          className={`flex items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-bold uppercase tracking-wider transition ${
+          className={`flex min-h-[44px] items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-bold uppercase tracking-wider transition active:scale-[0.98] ${
             settings.playMode === 'live_room'
               ? 'bg-amber-tactical text-noir-950 shadow-amber-glow'
               : 'text-zinc-400 hover:text-zinc-200'
@@ -338,7 +338,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({
             spyAudio.playTick();
             setMobileTab('players');
           }}
-          className={`flex items-center justify-center gap-1.5 rounded-lg py-2 text-xs font-bold transition ${
+          className={`flex min-h-[44px] items-center justify-center gap-1.5 rounded-lg py-2 text-xs font-bold transition active:scale-[0.98] ${
             mobileTab === 'players'
               ? 'bg-zinc-800 text-white'
               : 'text-zinc-400'
@@ -353,7 +353,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({
             spyAudio.playTick();
             setMobileTab('rules');
           }}
-          className={`flex items-center justify-center gap-1.5 rounded-lg py-2 text-xs font-bold transition ${
+          className={`flex min-h-[44px] items-center justify-center gap-1.5 rounded-lg py-2 text-xs font-bold transition active:scale-[0.98] ${
             mobileTab === 'rules'
               ? 'bg-zinc-800 text-white'
               : 'text-zinc-400'
@@ -368,7 +368,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({
             spyAudio.playTick();
             setMobileTab('decks');
           }}
-          className={`flex items-center justify-center gap-1.5 rounded-lg py-2 text-xs font-bold transition ${
+          className={`flex min-h-[44px] items-center justify-center gap-1.5 rounded-lg py-2 text-xs font-bold transition active:scale-[0.98] ${
             mobileTab === 'decks'
               ? 'bg-zinc-800 text-white'
               : 'text-zinc-400'
@@ -404,19 +404,19 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({
                       spyAudio.playTick();
                       onResetLeaderboard();
                     }}
-                    className="rounded-lg border border-zinc-800 bg-noir-950 p-1.5 text-zinc-400 hover:text-crimson-glow"
+                    className="flex h-11 w-11 items-center justify-center rounded-xl border border-zinc-800 bg-noir-950 text-zinc-400 transition hover:text-crimson-glow active:scale-95"
                     title="Reset Scores"
                   >
-                    <RotateCcw className="h-3.5 w-3.5" />
+                    <RotateCcw className="h-4 w-4" />
                   </button>
                 )}
                 <button
                   type="button"
                   onClick={handleShuffleRoster}
-                  className="rounded-lg border border-zinc-800 bg-noir-950 p-1.5 text-zinc-400 hover:text-amber-tactical"
+                  className="flex h-11 w-11 items-center justify-center rounded-xl border border-zinc-800 bg-noir-950 text-zinc-400 transition hover:text-amber-tactical active:scale-95"
                   title="Shuffle Players"
                 >
-                  <Shuffle className="h-3.5 w-3.5" />
+                  <Shuffle className="h-4 w-4" />
                 </button>
               </div>
             </div>
@@ -426,14 +426,19 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({
                 type="text"
                 value={newAgentName}
                 onChange={(e) => setNewAgentName(e.target.value)}
+                onFocus={(e) => {
+                  setTimeout(() => {
+                    e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }, 250);
+                }}
                 placeholder="Add player name..."
                 maxLength={22}
-                className="w-full rounded-xl border border-zinc-800 bg-noir-950 px-3 py-2 text-sm text-white placeholder-zinc-600 focus:border-crimson focus:outline-none"
+                className="min-h-[44px] w-full rounded-xl border border-zinc-800 bg-noir-950 px-3 py-2 text-sm text-white placeholder-zinc-600 focus:border-crimson focus:outline-none"
               />
               <button
                 type="submit"
                 disabled={players.length >= 20}
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-crimson text-white transition hover:bg-crimson-glow disabled:opacity-40"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-crimson text-white transition hover:bg-crimson-glow active:scale-95 disabled:opacity-40"
                 title="Add Player"
               >
                 <UserPlus className="h-4 w-4" />
@@ -449,7 +454,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({
                   <button
                     type="button"
                     onClick={() => handleCycleAvatar(player.id)}
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-noir-800 text-base transition hover:scale-105"
+                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-noir-800 text-base transition hover:scale-105 active:scale-95"
                     title="Tap to change icon"
                   >
                     {player.avatar}
@@ -458,8 +463,13 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({
                     type="text"
                     value={player.name}
                     onChange={(e) => handleRenamePlayer(player.id, e.target.value)}
+                    onFocus={(e) => {
+                      setTimeout(() => {
+                        e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                      }, 250);
+                    }}
                     aria-label="Player name"
-                    className="w-full bg-transparent text-sm font-medium text-zinc-100 focus:border-b focus:border-amber-tactical focus:outline-none"
+                    className="min-h-[44px] w-full bg-transparent text-sm font-medium text-zinc-100 focus:border-b focus:border-amber-tactical focus:outline-none"
                   />
                   {player.score > 0 && (
                     <span className="shrink-0 font-mono text-[11px] font-bold text-amber-tactical">
@@ -470,10 +480,10 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({
                     type="button"
                     disabled={players.length <= 3}
                     onClick={() => handleRemovePlayer(player.id)}
-                    className="p-1.5 text-zinc-600 hover:text-crimson-glow disabled:opacity-20"
+                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-zinc-600 transition hover:bg-crimson/10 hover:text-crimson-glow active:scale-95 disabled:opacity-20"
                     title="Remove"
                   >
-                    <Trash2 className="h-3.5 w-3.5" />
+                    <Trash2 className="h-4 w-4" />
                   </button>
                 </div>
               ))}
@@ -509,7 +519,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({
                       enableSurvivalRounds: true,
                     });
                   }}
-                  className="rounded-lg border border-zinc-800 bg-noir-950 px-2 py-1 text-[10px] font-bold text-zinc-300 hover:border-amber-tactical"
+                  className="min-h-[44px] rounded-xl border border-zinc-800 bg-noir-950 px-3 py-2 text-xs font-bold text-zinc-300 transition hover:border-amber-tactical active:scale-95"
                   title="Classic Preset"
                 >
                   ⚡ Classic
@@ -524,7 +534,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({
                       enableDetective: true,
                     });
                   }}
-                  className="rounded-lg border border-zinc-800 bg-noir-950 px-2 py-1 text-[10px] font-bold text-crimson-glow hover:border-crimson"
+                  className="min-h-[44px] rounded-xl border border-zinc-800 bg-noir-950 px-3 py-2 text-xs font-bold text-crimson-glow transition hover:border-crimson active:scale-95"
                   title="Chaos Preset"
                 >
                   🔥 Chaos
@@ -551,7 +561,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({
                           spyAudio.playTick();
                           onUpdateSettings({ imposterCount: num });
                         }}
-                        className={`rounded-lg border py-1.5 font-mono text-xs font-bold ${
+                        className={`min-h-[44px] rounded-xl border py-2 font-mono text-xs font-bold transition active:scale-95 ${
                           settings.imposterCount === num
                             ? 'border-crimson bg-crimson text-white'
                             : disabled
@@ -580,7 +590,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({
                         spyAudio.playTick();
                         onUpdateSettings({ discussionSeconds: sec });
                       }}
-                      className={`rounded-lg border py-1.5 font-mono text-xs font-bold ${
+                      className={`min-h-[44px] rounded-xl border py-2 font-mono text-xs font-bold transition active:scale-95 ${
                         settings.discussionSeconds === sec
                           ? 'border-amber-tactical bg-amber-tactical/20 text-amber-tactical'
                           : 'border-zinc-800 bg-noir-950 text-zinc-400'
@@ -615,7 +625,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({
                       spyAudio.playTick();
                       onUpdateSettings({ hintStyle: opt.id });
                     }}
-                    className={`rounded-lg border py-1.5 text-xs font-semibold ${
+                    className={`min-h-[44px] rounded-xl border py-2 text-xs font-semibold transition active:scale-95 ${
                       settings.hintStyle === opt.id
                         ? 'border-amber-tactical bg-amber-tactical/20 text-amber-tactical'
                         : 'border-zinc-800 bg-noir-950 text-zinc-400'
@@ -799,7 +809,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({
                       spyAudio.playTick();
                       onUpdateSettings({ chaosMode: c.id });
                     }}
-                    className={`rounded-lg border py-1.5 font-mono text-[11px] font-bold ${
+                    className={`min-h-[44px] rounded-xl border py-2 font-mono text-[11px] font-bold transition active:scale-95 ${
                       settings.chaosMode === c.id
                         ? 'border-crimson bg-crimson/25 text-white'
                         : 'border-zinc-800 bg-noir-950 text-zinc-400'
@@ -837,7 +847,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({
               <button
                 type="button"
                 onClick={onOpenCustomDecks}
-                className="flex items-center gap-1 rounded-lg border border-amber-tactical/50 bg-amber-950/30 px-2.5 py-1.5 text-xs font-bold text-amber-tactical transition active:scale-95"
+                className="flex min-h-[44px] items-center gap-1 rounded-xl border border-amber-tactical/50 bg-amber-950/30 px-3 py-2 text-xs font-bold text-amber-tactical transition active:scale-95"
               >
                 <FolderPlus className="h-3.5 w-3.5" />
                 <span>Custom</span>
@@ -845,7 +855,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({
               <button
                 type="button"
                 onClick={handleSelectRandomThree}
-                className="rounded-lg border border-zinc-800 bg-noir-950 p-1.5 text-zinc-300 transition hover:text-crimson-glow active:scale-95"
+                className="flex h-11 w-11 items-center justify-center rounded-xl border border-zinc-800 bg-noir-950 text-zinc-300 transition hover:text-crimson-glow active:scale-95"
                 title="Random 3 Decks"
               >
                 <Dices className="h-4 w-4" />
@@ -853,7 +863,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({
               <button
                 type="button"
                 onClick={handleSelectAllFiltered}
-                className="rounded-lg border border-zinc-800 bg-noir-950 px-2.5 py-1.5 text-xs font-semibold text-zinc-300 transition hover:border-zinc-600 active:scale-95"
+                className="min-h-[44px] min-w-[44px] rounded-xl border border-zinc-800 bg-noir-950 px-3 py-2 text-xs font-semibold text-zinc-300 transition hover:border-zinc-600 active:scale-95"
               >
                 All
               </button>
@@ -863,22 +873,27 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({
           {/* Search & Tier Pills */}
           <div className="flex flex-wrap items-center gap-2 pb-3">
             <div className="relative min-w-[160px] flex-1">
-              <Search className="pointer-events-none absolute left-3 top-2.5 h-3.5 w-3.5 text-zinc-500" />
+              <Search className="pointer-events-none absolute left-3 top-3.5 h-3.5 w-3.5 text-zinc-500" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={(e) => {
+                  setTimeout(() => {
+                    e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }, 250);
+                }}
                 placeholder="Search 32+ decks..."
-                className="w-full rounded-xl border border-zinc-800 bg-noir-950 py-2 pl-8 pr-8 text-xs text-white placeholder-zinc-600 focus:border-amber-tactical focus:outline-none"
+                className="min-h-[44px] w-full rounded-xl border border-zinc-800 bg-noir-950 py-2.5 pl-8 pr-10 text-xs text-white placeholder-zinc-600 focus:border-amber-tactical focus:outline-none"
               />
               {searchQuery && (
                 <button
                   type="button"
                   onClick={() => setSearchQuery('')}
                   aria-label="Clear deck search"
-                  className="absolute right-2 top-2 rounded-md p-0.5 text-zinc-500 hover:text-white"
+                  className="absolute right-1 top-1 flex h-9 w-9 items-center justify-center rounded-lg text-zinc-500 hover:text-white"
                 >
-                  <X className="h-3.5 w-3.5" />
+                  <X className="h-4 w-4" />
                 </button>
               )}
             </div>
@@ -900,7 +915,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({
                     spyAudio.playTick();
                     setTierFilter(t.id);
                   }}
-                  className={`rounded-lg px-2.5 py-1.5 text-[11px] font-bold transition active:scale-95 ${
+                  className={`min-h-[44px] rounded-xl px-3 py-2 text-xs font-bold transition active:scale-95 ${
                     tierFilter === t.id
                       ? 'bg-amber-tactical text-noir-950'
                       : 'bg-noir-950 text-zinc-400 hover:text-white'
