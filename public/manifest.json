@@ -1,0 +1,18 @@
+{
+  "name": "CLASSIFIED // IMPOSTER — Party Word Game",
+  "short_name": "IMPOSTER",
+  "description": "Free-to-Play Social Deduction Party Game with 32+ Categories, Special Roles, Pass & Play, and Live Multi-Device Rooms.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#07080A",
+  "theme_color": "#07080A",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/spy-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
